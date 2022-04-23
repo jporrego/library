@@ -1,4 +1,5 @@
 document.querySelector(".submit").addEventListener("click", addBookToLibrary);
+document.querySelector(".btn-add").addEventListener("click", showAddForm);
 
 let myLibrary = [
   new Book(
@@ -15,7 +16,13 @@ let myLibrary = [
     true,
     "https://images-na.ssl-images-amazon.com/images/I/919XM42JQlL.jpg"
   ),
-  new Book("The Three-Body Problem", "Liu Cixin", 399, true),
+  new Book(
+    "The Three-Body Problem",
+    "Liu Cixin",
+    399,
+    true,
+    "https://booksbyproxy.files.wordpress.com/2018/03/gardens-of-the-moon-subterranean-press1.jpg"
+  ),
 ];
 
 function Book(title, author, pages, read, img) {
@@ -27,8 +34,8 @@ function Book(title, author, pages, read, img) {
 }
 
 function showBooks() {
-  const library = document.querySelector(".library");
-
+  const libraryDiv = document.querySelector(".library");
+  libraryDiv.innerHTML = "";
   for (const i of myLibrary) {
     let book = document.createElement("div");
     let title = document.createElement("div");
@@ -61,7 +68,7 @@ function showBooks() {
       book.className = "book";
     }
 
-    library.appendChild(book);
+    libraryDiv.appendChild(book);
   }
 }
 
@@ -71,13 +78,24 @@ function addBookToLibrary() {
   let pages = document.querySelector("#pages").value;
   let read = document.querySelector("#read").value;
   let img = document.querySelector("#img").value;
-  const book = new Book(title, author, pages, read);
+
+  console.log(img);
+  let book;
+  if (img === undefined) {
+    book = new Book(title, author, pages, read);
+  } else {
+    book = new Book(title, author, pages, read, img);
+  }
+
   myLibrary.push(book);
-  let modal = document.querySelector(".modal");
-  modal.stlye.display = "none";
+  let modal = (document.querySelector(".modal").style.display = "none");
+  showBooks();
+}
+
+function showAddForm() {
+  let modal = (document.querySelector(".modal").style.display = "flex");
 }
 
 //addBookToLibrary();
 showBooks();
-addBookToLibrary();
 console.log(myLibrary);
