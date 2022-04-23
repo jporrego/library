@@ -36,10 +36,19 @@ body {
 }
 
 .app {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 4rem;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    filter: blur(1rem);
 }
 
 .library {
@@ -50,9 +59,9 @@ body {
     align-content: start;
     gap: 2rem;
     background-color: var(--bg-dark);
-    max-width: 80%;
+    max-width: 100%;
     min-height: 100vh;
-    padding: 5rem;
+    padding: 1.5rem 0rem;
 
 }
 
@@ -76,24 +85,41 @@ body {
     cursor: pointer;
 }
 
-.book::before {
+.book--no-img {
+    position: relative;
+    display: grid;
+    flex-direction: column;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: repeat(1, max-content) 1fr max-content;
+    grid-template-areas:
+        "author author"
+        "title tile"
+        "pages read";
+    width: 24rem;
+    height: 33.75rem;
+    padding: 1rem;
+    border-radius: .25rem;
+
+    word-breaK: break-word;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: rgb(62, 39, 126);
+}
+
+.book img {
     position: absolute;
-    content: "";
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: url("./img/y648.jpg");
-    background-size: cover;
     z-index: 0;
     user-select: none;
-    transition: all 0.3s ease-out;
-
+    transition: all 0.15s ease-out;
 }
 
 .book div {
     opacity: 0;
-    transition: all 0.2s ease-out;
+    transition: all 0.15s ease-out;
     z-index: 1;
 
 }
@@ -102,7 +128,7 @@ body {
     opacity: 1;
 }
 
-.book:hover::before {
+.book:hover img {
     filter: brightness(.4) blur(8px);
 }
 
@@ -133,4 +159,39 @@ body {
     align-self: end;
     font-size: 2rem;
     font-weight: 500;
+}
+
+.button {
+    width: fit-content;
+    background-color: red;
+    padding: .5rem 1.5rem;
+    border-radius: .75rem;
+    align-self: start;
+}
+
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.form {
+    width: fit-content;
+    height: fit-content;
+    padding: 2rem;
+    background-color: rgb(69, 106, 161);
+}
+
+.form__input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
 }
