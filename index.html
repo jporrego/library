@@ -25,7 +25,7 @@
         </div>
 
         <div class="modal">
-            <div class="form">
+            <form>
                 <div class="form__input">
                     <label for="title">Title</label>
                     <input type="text" id="title" name="title">
@@ -39,21 +39,18 @@
                     <input type="number" id="pages" name="pages">
                 </div>
                 <div class="form__input">
-                    <label for="title">Number of pages</label>
-                    <input type="number" id="pages" name="pages">
-                </div>
-                <div class="form__input">
-                    <label for="title">Cover Image (Optional)</label>
-                    <input type="number" id="pages" name="pages">
+                    <label for="title">Cover image URL (Optional)</label>
+                    <input type="url" id="img" name="img" placeholder="https://example.com">
                 </div>
                 <div class="form__input--checkbox">
                     <div>Have you read it?</div>
-                    <input type="radio" id="huey" name="read" value="yes" checked>
+                    <input type="radio" id="read" name="read" value="yes" checked>
                     <label for="huey">Yes</label>
-                    <input type="radio" id="dewey" name="read" value="no">
+                    <input type="radio" id="read" name="read" value="no">
                     <label for="dewey">No</label>
                 </div>
-            </div>
+                <button type="button" class="submit">Add</button>
+            </form>
         </div>
     </div>
     <script src="app.js"></script>

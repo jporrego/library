@@ -181,8 +181,7 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-
-.form {
+form {
     width: fit-content;
     height: fit-content;
     padding: 2rem;
@@ -194,4 +193,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: start;
+}
+
+input[type=text], input[type=number], input[type=url] {
+    width: 100%;
 }

@@ -1,3 +1,5 @@
+document.querySelector(".submit").addEventListener("click", addBookToLibrary);
+
 let myLibrary = [
   new Book(
     "The Hobbit",
@@ -64,16 +66,18 @@ function showBooks() {
 }
 
 function addBookToLibrary() {
-  /*let title = prompt("Title");
-  let author = prompt("Author");
-  let pages = prompt("Pages");
-  let read = prompt("Have you read it?");*/
-
+  let title = document.querySelector("#title").value;
+  let author = document.querySelector("#author").value;
+  let pages = document.querySelector("#pages").value;
+  let read = document.querySelector("#read").value;
+  let img = document.querySelector("#img").value;
   const book = new Book(title, author, pages, read);
   myLibrary.push(book);
+  let modal = document.querySelector(".modal");
+  modal.stlye.display = "none";
 }
 
 //addBookToLibrary();
 showBooks();
-
+addBookToLibrary();
 console.log(myLibrary);
