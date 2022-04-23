@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg-light: #22223a;
+    --bg-dark: #1b1c30;
+    --purple: #5046ba;
+    --white: #F1F5FB;
+    --white-darker: #c6c8d6;
+    --yellow: #ffc540;
+    --grey-dark: #31334c;
+    --grey: #6f7084;
+    --grey-light: #a4aab6;
+    /* Fonts */
+    --font-primary: 'Playfair Display', serif;
+    /* Utilities */
+    --big-padding: 2rem;
+    --small-padding: 1rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    background-color: var(--bg-dark);
+    color: var(--white);
+}
+
+.app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.library {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+    align-content: start;
+    gap: 2rem;
+    background-color: var(--bg-dark);
+    max-width: 80%;
+    min-height: 100vh;
+    padding: 5rem;
+
+}
+
+.book {
+    position: relative;
+    display: grid;
+    flex-direction: column;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: repeat(1, max-content) 1fr max-content;
+    grid-template-areas:
+        "author author"
+        "title tile"
+        "pages read";
+    width: 24rem;
+    height: 33.75rem;
+    padding: 1rem;
+    border-radius: .25rem;
+
+    word-breaK: break-word;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.book::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("./img/y648.jpg");
+    background-size: cover;
+    z-index: 0;
+    user-select: none;
+    transition: all 0.3s ease-out;
+
+}
+
+.book div {
+    opacity: 0;
+    transition: all 0.2s ease-out;
+    z-index: 1;
+
+}
+
+.book:hover div {
+    opacity: 1;
+}
+
+.book:hover::before {
+    filter: brightness(.4) blur(8px);
+}
+
+.author {
+    grid-area: author;
+    font-size: 1.8rem;
+    font-weight: 400;
+
+}
+
+.title {
+    grid-area: title;
+    font-size: 2.6rem;
+    font-weight: 700;
+}
+
+.pages {
+    grid-area: pages;
+    justify-self: start;
+    align-self: end;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.read {
+    grid-area: read;
+    justify-self: start;
+    align-self: end;
+    font-size: 2rem;
+    font-weight: 500;
+}
