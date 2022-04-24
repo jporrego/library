@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap');
 
 :root {
-    --bg-light: #22223a;
-    --bg-dark: #1b1c30;
+    --bg-light: #292942;
+    --bg-dark: #18192c;
     --purple: #5046ba;
+    --purple-light: #786df0;
     --white: #F1F5FB;
     --white-darker: #c6c8d6;
     --yellow: #ffc540;
@@ -47,8 +48,7 @@ body {
 .wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    /*filter: blur(1rem);*/
+    align-items: left;
 }
 
 .library {
@@ -82,53 +82,44 @@ body {
 
     word-breaK: break-word;
     overflow: hidden;
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, .4);
 
-}
-
-.book--no-img {
-    position: relative;
-    display: grid;
-    flex-direction: column;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: repeat(1, max-content) 1fr max-content;
-    grid-template-areas:
-        "author author"
-        "title tile"
-        "pages read";
-    width: 24rem;
-    height: 33.75rem;
-    padding: 1rem;
-    border-radius: .25rem;
-
-    word-breaK: break-word;
-    overflow: hidden;
-    cursor: pointer;
-    background-color: rgb(62, 39, 126);
 }
 
 .book img {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: 0%;
+    min-width: 100%;
     height: 100%;
     z-index: 0;
     user-select: none;
-    transition: all 0.15s ease-out;
+    transition: all 0.2s ease-out;
 }
 
 .book div {
-    opacity: 0;
     transition: all 0.15s ease-out;
     z-index: 1;
 }
 
+.hide-details div {
+    opacity: 0;
+    transform: translateY(-.75rem);
+
+}
+
+.dark-cover img {
+    filter: brightness(.6) blur(3px);
+}
+
 .book:hover div {
     opacity: 1;
+    transform: translateY(0rem);
 }
 
 .book:hover img {
     filter: brightness(.4) blur(8px);
+    transform: scale(1.1);
 }
 
 .author {
@@ -156,8 +147,19 @@ body {
     grid-area: read;
     justify-self: start;
     align-self: end;
-    font-size: 2rem;
+    padding: 0rem 1rem;
+    font-size: 1.4rem;
+    text-transform: initial;
+    text-decoration: underline;
+    border-radius: .25rem;
     font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.1s ease-out;
+}
+
+.read:hover {
+    transform: scale(1.1);
 }
 
 .btn-delete {
@@ -178,10 +180,17 @@ body {
 
 .btn-add {
     width: fit-content;
-    background-color: rgb(48, 118, 184);
+    background-color: var(--purple);
     padding: .5rem 1.5rem;
     border-radius: .75rem;
     align-self: start;
+    transition: all 0.15s ease-out;
+    cursor: pointer;
+    user-select: none;
+}
+
+.btn-add:hover {
+    transform: translateY(-2px);
 }
 
 .modal {
@@ -201,16 +210,56 @@ form {
     width: fit-content;
     height: fit-content;
     padding: 2rem;
-    background-color: rgb(69, 106, 161);
+    border-radius: 1rem;
+    font-size: 1.6rem;
+    font-weight: 400;
+    background-color: var(--bg-dark);
+    color: var(--white);
+}
+
+form button {
+    background-color: var(--purple);
+    border: none;
+    padding: 0.35rem 2rem;
+    margin-top: 2rem;
+    cursor: pointer;
+    color: white;
+    border-radius: .5rem;
+    transition: all .15s ease-out;
+    font-family: var(--font-primary);
+    font-weight: 800;
+}
+
+form button:hover {
+    transform: translateY(-1px);
 }
 
 .form__input {
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: start;
+
+}
+
+.form__input--checkbox {
+    margin-top: 2rem;
 }
 
 input[type=text], input[type=number], input[type=url] {
     width: 100%;
+    border-radius: .2rem;
+    padding: .5rem;
+    border: none;
+    background-color: var(--bg-light);
+    color: white;
+}
+
+::placeholder {
+    color: white;
+}
+
+.blur {
+    filter: blur(1rem);
 }

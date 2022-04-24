@@ -1,30 +1,24 @@
-document.querySelector(".submit").addEventListener("click", addBookToLibrary);
+document.querySelector(".submit").addEventListener("submit", addBookToLibrary);
 document.querySelector(".btn-add").addEventListener("click", showAddForm);
+document.querySelector(".modal").addEventListener("click", hideAddForm);
 
 let myLibrary = [
-  new Book(
-    0,
-    "The Hobbit",
-    "J.R.R. Tolkien",
-    295,
-    true,
-    "https://i.harperapps.com/hcanz/covers/9780261102668/y648.jpg"
-  ),
+  new Book(0, "The Hobbit", "J.R.R. Tolkien", 295, true, "./img/hobbit.jpg"),
   new Book(
     1,
-    "The Three-Body Problem",
+    "The Dark Forest",
     "Liu Cixin",
-    399,
+    528,
     true,
-    "https://images-na.ssl-images-amazon.com/images/I/919XM42JQlL.jpg"
+    "./img/darkforest.jpg"
   ),
   new Book(
     2,
-    "The Three-Body Problem",
-    "Liu Cixin",
-    399,
+    "Gardens of the Moon",
+    "Steven Erikson",
+    712,
     true,
-    "https://booksbyproxy.files.wordpress.com/2018/03/gardens-of-the-moon-subterranean-press1.jpg"
+    "./img/gardens.jpg"
   ),
 ];
 
@@ -56,14 +50,14 @@ function showBooks() {
     author.className = "author";
     pages.className = "pages";
     read.className = "read";
+    read.addEventListener("click", changeReadStatus);
     btnDelete.className = "btn-delete";
 
     id.dataset.bookId = i.id;
     title.innerHTML = i.title;
     author.innerHTML = i.author;
     pages.innerHTML = i.pages;
-    read.innerHTML = "Read";
-    btnDelete.innerHTML = "Remove";
+    btnDelete.innerHTML = "x";
     btnDelete.addEventListener("click", deleteBook);
 
     book.appendChild(id);
@@ -75,19 +69,32 @@ function showBooks() {
 
     /* --- Handle img --- */
     if (i.img === undefined) {
-      book.className = "book--no-img";
+      let img = document.createElement("img");
+      img.src = "./img/cover.jpg";
+      book.appendChild(img);
+      book.className = "book dark-cover";
     } else {
       let img = document.createElement("img");
       book.appendChild(img);
       img.src = i.img;
-      book.className = "book";
+      book.className = "book hide-details";
+    }
+
+    /* --- Handle read --- */
+    if (i.read) {
+      read.innerHTML = "Read";
+    } else {
+      read.innerHTML = "Not read";
     }
 
     libraryDiv.appendChild(book);
   }
 }
 
-function addBookToLibrary() {
+function addBookToLibrary(event) {
+  event.preventDefault();
+  let form = document.getElementById("form");
+  let formData = new FormData(form);
   /* --- Set book id --- */
   let newId = 0;
   for (const i of myLibrary) {
@@ -97,34 +104,87 @@ function addBookToLibrary() {
   }
   newId++;
 
-  let title = document.querySelector("#title").value;
-  let author = document.querySelector("#author").value;
-  let pages = document.querySelector("#pages").value;
-  let read = document.querySelector("#read").value;
-  let img = document.querySelector("#img").value;
-
-  console.log(img);
   let book;
-  if (img === undefined) {
+  let title = formData.get("title");
+  let author = formData.get("author");
+  let pages = formData.get("pages");
+  let img = formData.get("img");
+  let read;
+
+  /* --- Handle read status --- */
+  const radioButtons = document.querySelectorAll('input[name="read"]');
+  for (const radioButton of radioButtons) {
+    if (radioButton.checked) {
+      if (radioButton.value === "yes") {
+        read = true;
+      } else {
+        read = false;
+      }
+      break;
+    }
+  }
+
+  if (img === "") {
     book = new Book(newId, title, author, pages, read);
   } else {
     book = new Book(newId, title, author, pages, read, img);
   }
 
   myLibrary.push(book);
-  let modal = (document.querySelector(".modal").style.display = "none");
+  document.querySelector(".modal").style.display = "none";
+  document.querySelector(".btn-add").classList.remove("blur");
+  document.querySelector(".library").classList.remove("blur");
   showBooks();
 }
 
 function deleteBook(e) {
   let idToDelete = e.target.parentNode.querySelector(".book-id").dataset.bookId;
   myLibrary = myLibrary.filter((book) => book.id != idToDelete);
-  console.log(myLibrary);
   showBooks();
 }
 
+function changeReadStatus(e) {
+  const idToChange =
+    e.target.parentNode.querySelector(".book-id").dataset.bookId;
+  let updatedBook = myLibrary.filter(
+    (book) => book.id === parseInt(idToChange)
+  )[0];
+
+  if (updatedBook.read) {
+    updatedBook.read = false;
+  } else {
+    updatedBook.read = true;
+  }
+
+  myLibrary.filter((book) =>
+    book.id == parseInt(idToChange) ? updatedBook : book
+  );
+
+  let booksDivs = document.querySelectorAll(".book");
+  for (const div of booksDivs) {
+    if (div.querySelector(".book-id").dataset.bookId == idToChange) {
+      if (updatedBook.read) {
+        div.querySelector(".read").innerHTML = "Read";
+      } else {
+        div.querySelector(".read").innerHTML = "Not read";
+      }
+    }
+  }
+  //showBooks();
+}
+
 function showAddForm() {
-  let modal = (document.querySelector(".modal").style.display = "flex");
+  document.querySelector(".modal").style.display = "flex";
+  document.querySelector(".btn-add").classList.add("blur");
+  document.querySelector(".library").classList.add("blur");
+}
+
+function hideAddForm(e) {
+  if (e.target.className === "modal") {
+    document.querySelector(".modal").style.display = "none";
+    document.querySelector(".btn-add").classList.remove("blur");
+    document.querySelector(".library").classList.remove("blur");
+  }
 }
 
 showBooks();
