@@ -41,26 +41,37 @@ function showBooks() {
   libraryDiv.innerHTML = "";
 
   for (const i of myLibrary) {
+    /* --- id --- */
     let id = document.createElement("div");
-    let book = document.createElement("div");
-    let title = document.createElement("div");
-    let author = document.createElement("div");
-    let pages = document.createElement("div");
-    let read = document.createElement("div");
-    let btnDelete = document.createElement("div");
-
     id.className = "book-id";
+    id.dataset.bookId = i.id;
+
+    /* --- Book --- */
+    let book = document.createElement("div");
+
+    /* --- Title --- */
+    let title = document.createElement("div");
     title.className = "title";
+    title.innerHTML = i.title;
+
+    /* --- Author --- */
+    let author = document.createElement("div");
     author.className = "author";
+    author.innerHTML = i.author;
+
+    /* --- Pages --- */
+    let pages = document.createElement("div");
     pages.className = "pages";
+    pages.innerHTML = i.pages + " pages";
+
+    /* --- Read --- */
+    let read = document.createElement("div");
     read.className = "read";
     read.addEventListener("click", changeReadStatus);
-    btnDelete.className = "btn-delete";
 
-    id.dataset.bookId = i.id;
-    title.innerHTML = i.title;
-    author.innerHTML = i.author;
-    pages.innerHTML = i.pages + " pages";
+    /* --- Delete button --- */
+    let btnDelete = document.createElement("div");
+    btnDelete.className = "btn-delete";
     btnDelete.innerHTML = "x";
     btnDelete.addEventListener("click", deleteBook);
 
@@ -84,7 +95,7 @@ function showBooks() {
       book.className = "book hide-details";
     }
 
-    /* --- Handle read --- */
+    /* --- Handle read status --- */
     if (i.read) {
       read.innerHTML = "Read";
     } else {
@@ -96,9 +107,10 @@ function showBooks() {
 }
 
 function addBookToLibrary(event) {
-  event.preventDefault();
+  /* --- Get form data --- */
   let form = document.getElementById("form");
   let formData = new FormData(form);
+
   /* --- Set book id --- */
   let newId = 0;
   for (const i of myLibrary) {
@@ -108,6 +120,7 @@ function addBookToLibrary(event) {
   }
   newId++;
 
+  /* --- Variables --- */
   let book;
   let title = formData.get("title");
   let author = formData.get("author");
@@ -128,6 +141,7 @@ function addBookToLibrary(event) {
     }
   }
 
+  /* --- Handle cover img --- */
   if (img === "") {
     book = new Book(newId, title, author, pages, read);
   } else {
@@ -150,6 +164,7 @@ function deleteBook(e) {
 function changeReadStatus(e) {
   const idToChange =
     e.target.parentNode.querySelector(".book-id").dataset.bookId;
+
   let updatedBook = myLibrary.filter(
     (book) => book.id === parseInt(idToChange)
   )[0];
@@ -160,10 +175,12 @@ function changeReadStatus(e) {
     updatedBook.read = true;
   }
 
+  /* --- Update status in library --- */
   myLibrary.filter((book) =>
     book.id == parseInt(idToChange) ? updatedBook : book
   );
 
+  /* --- Update status in html element to avoid reloading all books to show the change. --- */
   let booksDivs = document.querySelectorAll(".book");
   for (const div of booksDivs) {
     if (div.querySelector(".book-id").dataset.bookId == idToChange) {
@@ -174,7 +191,6 @@ function changeReadStatus(e) {
       }
     }
   }
-  //showBooks();
 }
 
 function showAddForm() {
@@ -189,11 +205,6 @@ function hideAddForm(e) {
     document.querySelector(".btn-show-form").classList.remove("blur");
     document.querySelector(".library").classList.remove("blur");
   }
-}
-
-function test(e) {
-  e.preventDefault();
-  console.log(e.target.innerHTML);
 }
 
 showBooks();
