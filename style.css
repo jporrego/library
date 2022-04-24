@@ -94,7 +94,7 @@ body {
     height: 100%;
     z-index: 0;
     user-select: none;
-    transition: all 0.2s ease-out;
+    transition: all 0.25s ease-out;
 }
 
 .book div {
@@ -178,7 +178,7 @@ body {
     padding: .5rem 1rem;
 }
 
-.btn-add {
+.btn-show-form {
     width: fit-content;
     background-color: var(--purple);
     padding: .5rem 1.5rem;
@@ -189,7 +189,7 @@ body {
     user-select: none;
 }
 
-.btn-add:hover {
+.btn-show-form:hover {
     transform: translateY(-2px);
 }
 
@@ -207,7 +207,8 @@ body {
 }
 
 form {
-    width: fit-content;
+    min-width: fit-content;
+    width: 30rem;
     height: fit-content;
     padding: 2rem;
     border-radius: 1rem;

@@ -1,5 +1,9 @@
-document.querySelector(".submit").addEventListener("submit", addBookToLibrary);
-document.querySelector(".btn-add").addEventListener("click", showAddForm);
+document
+  .querySelector(".btn-submit")
+  .addEventListener("click", addBookToLibrary);
+
+document.querySelector(".btn-show-form").addEventListener("click", showAddForm);
+
 document.querySelector(".modal").addEventListener("click", hideAddForm);
 
 let myLibrary = [
@@ -56,7 +60,7 @@ function showBooks() {
     id.dataset.bookId = i.id;
     title.innerHTML = i.title;
     author.innerHTML = i.author;
-    pages.innerHTML = i.pages;
+    pages.innerHTML = i.pages + " pages";
     btnDelete.innerHTML = "x";
     btnDelete.addEventListener("click", deleteBook);
 
@@ -132,7 +136,7 @@ function addBookToLibrary(event) {
 
   myLibrary.push(book);
   document.querySelector(".modal").style.display = "none";
-  document.querySelector(".btn-add").classList.remove("blur");
+  document.querySelector(".btn-show-form").classList.remove("blur");
   document.querySelector(".library").classList.remove("blur");
   showBooks();
 }
@@ -175,16 +179,21 @@ function changeReadStatus(e) {
 
 function showAddForm() {
   document.querySelector(".modal").style.display = "flex";
-  document.querySelector(".btn-add").classList.add("blur");
+  document.querySelector(".btn-show-form").classList.add("blur");
   document.querySelector(".library").classList.add("blur");
 }
 
 function hideAddForm(e) {
   if (e.target.className === "modal") {
     document.querySelector(".modal").style.display = "none";
-    document.querySelector(".btn-add").classList.remove("blur");
+    document.querySelector(".btn-show-form").classList.remove("blur");
     document.querySelector(".library").classList.remove("blur");
   }
+}
+
+function test(e) {
+  e.preventDefault();
+  console.log(e.target.innerHTML);
 }
 
 showBooks();
