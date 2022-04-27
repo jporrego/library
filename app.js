@@ -6,7 +6,18 @@ document.querySelector(".btn-show-form").addEventListener("click", showAddForm);
 
 document.querySelector(".modal").addEventListener("click", hideAddForm);
 
-let myLibrary = [
+class Book {
+  constructor(id, title, author, pages, read, img) {
+    this.id = id;
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.img = img;
+  }
+}
+
+let libraryDatabase = [
   new Book(0, "The Hobbit", "J.R.R. Tolkien", 295, true, "./img/hobbit.jpg"),
   new Book(
     1,
@@ -25,7 +36,7 @@ let myLibrary = [
     "./img/gardens.jpg"
   ),
 ];
-
+/*
 function Book(id, title, author, pages, read, img) {
   this.id = id;
   this.title = title;
@@ -33,14 +44,14 @@ function Book(id, title, author, pages, read, img) {
   this.pages = pages;
   this.read = read;
   this.img = img;
-}
+}*/
 
 function showBooks() {
   /* --- Get library div and clear it --- */
   const libraryDiv = document.querySelector(".library");
   libraryDiv.innerHTML = "";
 
-  for (const i of myLibrary) {
+  for (const i of libraryDatabase) {
     /* --- id --- */
     let id = document.createElement("div");
     id.className = "book-id";
@@ -113,7 +124,7 @@ function addBookToLibrary(event) {
 
   /* --- Set book id --- */
   let newId = 0;
-  for (const i of myLibrary) {
+  for (const i of libraryDatabase) {
     if (i.id > newId) {
       newId = i.id;
     }
@@ -148,7 +159,7 @@ function addBookToLibrary(event) {
     book = new Book(newId, title, author, pages, read, img);
   }
 
-  myLibrary.push(book);
+  libraryDatabase.push(book);
   document.querySelector(".modal").style.display = "none";
   document.querySelector(".btn-show-form").classList.remove("blur");
   document.querySelector(".library").classList.remove("blur");
@@ -157,7 +168,7 @@ function addBookToLibrary(event) {
 
 function deleteBook(e) {
   let idToDelete = e.target.parentNode.querySelector(".book-id").dataset.bookId;
-  myLibrary = myLibrary.filter((book) => book.id != idToDelete);
+  libraryDatabase = libraryDatabase.filter((book) => book.id != idToDelete);
   showBooks();
 }
 
@@ -165,7 +176,7 @@ function changeReadStatus(e) {
   const idToChange =
     e.target.parentNode.querySelector(".book-id").dataset.bookId;
 
-  let updatedBook = myLibrary.filter(
+  let updatedBook = libraryDatabase.filter(
     (book) => book.id === parseInt(idToChange)
   )[0];
 
@@ -176,7 +187,7 @@ function changeReadStatus(e) {
   }
 
   /* --- Update status in library --- */
-  myLibrary.filter((book) =>
+  libraryDatabase.filter((book) =>
     book.id == parseInt(idToChange) ? updatedBook : book
   );
 
